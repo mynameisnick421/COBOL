@@ -1,0 +1,240 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     COBNLH01.
+       DATE-WRITTEN.   12/03/19.
+       AUTHOR.         NICK HOUSER.
+       DATE-COMPILED.
+      *******************************************
+      *  THIS PROGRAM READS A FILE AND CREATES  *
+      *         A STUDENT ROSTER REPORT         *
+      *******************************************
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+           SELECT PAINT-ESTIMATE
+               ASSIGN TO 'C:\SCHOOL\COBOL\PAINTEST.DAT'
+               ORGANIZATION IS LINE SEQUENTIAL.
+
+           SELECT PRINTOUT
+               ASSIGN TO 'C:\SCHOOL\COBOL\PJOBEST.PRT'
+               ORGANIZATION IS RECORD SEQUENTIAL.
+      
+       DATA DIVISION.
+       FILE SECTION.
+
+       FD  PAINT-ESTIMATE
+           LABEL RECORD IS STANDARD
+           DATA RECORD IS I-REC
+           RECORD CONTAINS 23 CHARACTERS.
+      *DECLARING INPUT VARIABLES
+       01 I-REC.
+           05 I-PAINT-EST-NO       PIC X(4).
+           05 I-PAINT-DATE.
+               10 I-PAINT-YY       PIC 9(4).
+               10 I-PAINT-MM       PIC 9(2).
+               10 I-PAINT-DD       PIC 9(2).
+           05  I-PAINT-WALL-SQ-FT  PIC 9(4).
+           05  I-PAINT-DOOR-SQ-FT  PIC 9(3).
+           05  I-PAINT-PRICE-GAL   PIC 99V99.
+
+       FD PRINTOUT
+           LABEL RECORD IS OMITTED
+           RECORD CONTAINS 132 CHARACTERS
+           DATA RECORD IS PRINTLINE
+           LINAGE IS 60 WITH FOOTING AT 56.
+
+       01 PRINTLINE                PIC X(132).
+
+       WORKING-STORAGE SECTION.
+       01  WORK-AREA.
+           05  C-ECTR              PIC 999         VALUE 0.
+           05  C-PCTR              PIC 99          VALUE 0.
+           05  EOF                 PIC X(5)        VALUE 'FALSE'.
+           05  C-TOTAL-SQFT        PIC 9(4).
+           05  C-GAL-NEEDED        PIC 99V99.
+           05  C-PAINT-EST         PIC 9(5)V99.
+           05  C-LABOR-EST         PIC 9(5)V99.
+           05  C-TOTAL-EST         PIC 9(6)V99.
+      *GRAND-TOTAL-ACCUMULATORS
+           05  C-GAL-NEEDED-GT     PIC 9(5)V99     VALUE 0.
+           05  C-PAINT-EST-GT      PIC 9(8)V99     VALUE 0.
+           05  C-LABOR-EST-GT      PIC 9(8)V99     VALUE 0.
+           05  C-TOTAL-EST-GT      PIC 9(9)V99     VALUE 0.
+
+       01  CURRENT-DATE-AND-TIME.
+           05  I-DATE.
+               10  I-YY            PIC 9(4).
+               10  I-MM            PIC 99.
+               10  I-DD            PIC 99.
+           05  I-TIME              PIC X(11).
+
+       01 BLANK-LINE.
+           05 FILLER               PIC X(132).
+
+       01  COMPANY-TITLE.
+           05  FILLER              PIC X(6)    VALUE 'DATE:'.
+           05  O-MM                PIC 99.
+           05  FILLER              PIC X       VALUE '/'.
+           05  O-DD                PIC 99.
+           05  FILLER              PIC X       VALUE '/'.
+           05  O-YY                PIC 9(4).
+           05  FILLER              PIC X(37)   VALUE ' '.
+           05  FILLER              PIC X(24)
+               VALUE "HOUSER'S PAINT ESTIMATOR".
+           05  FILLER              PIC X(47)   VALUE ' '.
+           05  FILLER              PIC X(6)    VALUE 'PAGE:'.
+           05  O-PCTR              PIC Z9.
+
+       01  COLUMN-HEADING1.
+           05  FILLER              PIC X(31)   VALUE 'ESTIMATE'.
+           05  FILLER              PIC X(11)   VALUE 'WALL'.
+           05  FILLER              PIC X(10)   VALUE 'DOOR'.
+           05  FILLER              PIC X(11)   VALUE 'TOTAL'.
+           05  FILLER              PIC X(13)   VALUE 'GALLONS'.
+           05  FILLER              PIC X(17)   VALUE 'PRICE/'.
+           05  FILLER              PIC X(17)   VALUE 'PAINT'.
+           05  FILLER              PIC X(17)   VALUE 'LABOR'.
+           05  FILLER              PIC X(5)    VALUE 'TOTAL'.
+
+       01  COLUMN-HEADING2.
+           05  FILLER              PIC X(12)   VALUE '  NUMBER'.
+           05  FILLER              PIC X(18)   VALUE 'ESTIMATE DATE'.
+           05  FILLER              PIC X(11)   VALUE 'SQ/FT'.
+           05  FILLER              PIC X(11)   VALUE 'SQ/FT'.
+           05  FILLER              PIC X(12)   VALUE 'SQ/FT'.
+           05  FILLER              PIC X(12)   VALUE 'NEEDED'.
+           05  FILLER              PIC X(14)   VALUE 'GALLON'.
+           05  FILLER              PIC X(17)   VALUE 'ESTIMATE'.
+           05  FILLER              PIC X(17)   VALUE 'ESTIMATE'.
+           05  FILLER              PIC X(8)    VALUE 'ESTIMATE'.
+
+       01  DETAIL-LINE.
+           05  FILLER              PIC XX.
+           05  O-ESTIMATE-NO       PIC X(4).
+           05  FILLER              PIC X(7)    VALUE ' '.
+           05  O-PAINT-MM          PIC 99.
+           05  FILLER              PIC X       VALUE '/'.
+           05  O-PAINT-DD          PIC 99.
+           05  FILLER              PIC X       VALUE '/'.
+           05  O-PAINT-YYYY        PIC 9(4).
+           05  FILLER              PIC X(7)    VALUE ' '.
+           05  O-PAINT-WALL-SQ-FT  PIC Z,ZZ9.
+           05  FILLER              PIC X(7)    VALUE ' '.
+           05  O-PAINT-DOOR-SQ-FT  PIC ZZ9.
+           05  FILLER              PIC X(7)    VALUE ' '.
+           05  O-TOTAL-SQ-FT       PIC Z,ZZ9.
+           05  FILLER              PIC X(7)    VALUE ' '.
+           05  O-GALLONS-NEEDED    PIC ZZZ.99.
+           05  FILLER              PIC X(7)    VALUE ' '.
+           05  O-PRICE-GALLON      PIC ZZ.99.
+           05  FILLER              PIC X(6)    VALUE ' '.
+           05  O-PAINT-EST         PIC $ZZ,ZZZ.99.
+           05  FILLER              PIC X(7)    VALUE ' '.
+           05  O-LABOR-EST         PIC $ZZ,ZZZ.99.
+           05  FILLER              PIC X(6).
+           05  O-TOTAL-EST         PIC $ZZZ,ZZZ.99.
+
+       01  TOTAL-LINE.
+           05  FILLER              PIC X(34)   VALUE 'GRAND TOTALS:'.
+           05  FILLER              PIC X(17)   VALUE 'TOTAL ESTIMATES:'.
+           05  O-ECTR              PIC ZZ9.
+           05  FILLER              PIC X(7)    VALUE ' '.
+           05  O-GAL-NEEDED-GT     PIC ZZ,ZZZ.99.
+           05  FILLER              PIC X(15)   VALUE ' '.
+           05  O-PAINT-EST-GT      PIC $$,$$$,$$$.99.
+           05  FILLER              PIC X(4).
+           05  O-LABOR-EST-GT      PIC $$,$$$,$$$.99.
+           05  FILLER              PIC X(3)    VALUE ' '.
+           05  O-TOTAL-EST-GT      PIC $$$,$$$,$$$.99.
+
+       PROCEDURE DIVISION.
+       0000-MAIN.
+           PERFORM 1000-INIT.
+           PERFORM 2000-MAINLINE
+               UNTIL EOF = 'TRUE'.
+           PERFORM 3000-CLOSING.
+           STOP RUN.
+
+       1000-INIT.
+           OPEN INPUT PAINT-ESTIMATE.
+           OPEN OUTPUT PRINTOUT.
+
+           MOVE FUNCTION CURRENT-DATE TO CURRENT-DATE-AND-TIME.
+           MOVE I-YY TO O-YY.
+           MOVE I-DD TO O-DD.
+           MOVE I-MM TO O-MM.
+
+           PERFORM 9000-READ.
+           PERFORM 9100-HEADINGS.
+
+       2000-MAINLINE.
+           PERFORM 2100-CALCS.
+           PERFORM 2200-OUTPUT.
+           PERFORM 9000-READ.
+
+       2100-CALCS.
+           ADD 1 TO C-ECTR.
+           SUBTRACT I-PAINT-DOOR-SQ-FT FROM I-PAINT-WALL-SQ-FT
+               GIVING C-TOTAL-SQFT.
+           DIVIDE C-TOTAL-SQFT BY 115 GIVING C-GAL-NEEDED.
+           MULTIPLY C-GAL-NEEDED BY I-PAINT-PRICE-GAL GIVING 
+               C-PAINT-EST.
+           COMPUTE C-LABOR-EST = (C-GAL-NEEDED * 3)*23.55.
+           ADD C-PAINT-EST TO C-LABOR-EST GIVING C-TOTAL-EST.
+      *GRAND TOTAL ACCUMULATORS
+           ADD C-GAL-NEEDED TO C-GAL-NEEDED-GT.
+           ADD C-PAINT-EST TO C-PAINT-EST-GT.
+           ADD C-LABOR-EST TO C-LABOR-EST-GT.
+           ADD C-TOTAL-EST TO C-TOTAL-EST-GT.
+
+
+       2200-OUTPUT.
+           MOVE I-PAINT-EST-NO TO O-ESTIMATE-NO.
+           MOVE I-PAINT-YY TO O-PAINT-YYYY.
+           MOVE I-PAINT-MM TO O-PAINT-MM.
+           MOVE I-PAINT-DD TO O-PAINT-DD.
+           MOVE I-PAINT-WALL-SQ-FT TO O-PAINT-WALL-SQ-FT.
+           MOVE I-PAINT-DOOR-SQ-FT TO O-PAINT-DOOR-SQ-FT.
+           MOVE C-TOTAL-SQFT TO O-TOTAL-SQ-FT.
+           MOVE C-GAL-NEEDED TO O-GALLONS-NEEDED.
+           MOVE I-PAINT-PRICE-GAL TO O-PRICE-GALLON.
+           MOVE C-PAINT-EST TO O-PAINT-EST.
+           MOVE C-LABOR-EST TO O-LABOR-EST.
+           MOVE C-TOTAL-EST TO O-TOTAL-EST.
+
+           WRITE PRINTLINE FROM DETAIL-LINE
+               AFTER ADVANCING 1 LINES
+                   AT EOP
+                       PERFORM 9100-HEADINGS.
+
+       3000-CLOSING.
+           PERFORM 3100-GRAND-TOTALS.
+           CLOSE PAINT-ESTIMATE.
+           CLOSE PRINTOUT.
+
+       3100-GRAND-TOTALS.
+           MOVE C-ECTR TO O-ECTR.
+           MOVE C-GAL-NEEDED-GT TO O-GAL-NEEDED-GT.
+           MOVE C-PAINT-EST-GT TO O-PAINT-EST-GT.
+           MOVE C-LABOR-EST-GT TO O-LABOR-EST-GT.
+           MOVE C-TOTAL-EST-GT TO O-TOTAL-EST-GT.
+
+           WRITE PRINTLINE FROM TOTAL-LINE
+               AFTER ADVANCING 3 LINES.
+
+       9000-READ.
+           READ PAINT-ESTIMATE
+               AT END
+                   MOVE 'TRUE' TO EOF.
+
+       9100-HEADINGS.
+           ADD 1 TO C-PCTR.
+           MOVE C-PCTR TO O-PCTR.
+           WRITE PRINTLINE FROM COMPANY-TITLE
+               AFTER ADVANCING PAGE.
+           WRITE PRINTLINE FROM COLUMN-HEADING1
+               AFTER ADVANCING 2 LINES.
+           WRITE PRINTLINE FROM COLUMN-HEADING2
+               AFTER ADVANCING 1 LINE.
+           WRITE PRINTLINE FROM BLANK-LINE
+               AFTER ADVANCING 1 LINE.

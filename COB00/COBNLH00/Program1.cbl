@@ -12,13 +12,13 @@
        FILE-CONTROL.
 
            SELECT STUDENT-MASTER
-               ASSIGN TO 'C:\COBOL\STDNTMST.DAT'
+               ASSIGN TO 'C:\SCHOOL\COBOL\STDNTMST.DAT'
                ORGANIZATION IS LINE SEQUENTIAL.
 
            SELECT PRINTOUT
-               ASSIGN TO 'C:\COBOL\STDNTRPT.PRT'
+               ASSIGN TO 'C:\SCHOOL\COBOL\STDNTRPT.PRT'
                ORGANIZATION IS RECORD SEQUENTIAL.
-
+      
        DATA DIVISION.
        FILE SECTION.
 
@@ -26,7 +26,7 @@
            LABEL RECORD IS STANDARD
            DATA RECORD IS I-REC
            RECORD CONTAINS 49 CHARACTERS.
-
+      *DECLARING INPUT VARIABLES
        01 I-REC.
            05 I-ID                 PIC X(7).
            05 I-NAME.
@@ -143,3 +143,25 @@
                AFTER ADVANCING 2 LINES
                    AT EOP
                        PERFORM 9100-HEADINGS.
+
+       3000-CLOSING.
+           MOVE C-SCTR TO O-SCTR.
+           WRITE PRINTLINE FROM TOTAL-LINE
+               AFTER ADVANCING 3 LINES.
+           CLOSE STUDENT-MASTER.
+           CLOSE PRINTOUT.
+
+       9000-READ.
+           READ STUDENT-MASTER
+               AT END
+                   MOVE 'TRUE' TO EOF.
+
+       9100-HEADINGS.
+           ADD 1 TO C-PCTR.
+           MOVE C-PCTR TO O-PCTR.
+           WRITE PRINTLINE FROM COMPANY-TITLE
+               AFTER ADVANCING PAGE.
+           WRITE PRINTLINE FROM COLUMN-HEADING1
+               AFTER ADVANCING 2 LINES.
+           WRITE PRINTLINE FROM COLUMN-HEADING2
+               AFTER ADVANCING 1 LINE.
