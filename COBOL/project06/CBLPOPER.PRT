@@ -1,0 +1,254 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DATE: 02/10/2020                                    ALBIA SOCCER CLUB FUNDRAISER                                            PAGE:  1
+COBNLH05                                                  HOUSER DIVISION                                                           
+                                                            ERROR REPORT                                                            
+
+ERROR RECORD                                                            ERROR DESCRIPTION                                           
+
+!BLAKE         BORIS          LOW POP TYPE   OTTUMWA   IA1234567890005A POP TYPE MUST BE 1 THROUGH 6.                               
+
+!SUTHERLAND    LAUREN         HIGH POP TYPE  ALBIA     IA9876543210703C POP TYPE MUST BE 1 THROUGH 6.                               
+
+!WALSH         SEAN           NO STATE       ALBIA       1234567890203D VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!CARR          EVAN           NOTNUMPOPTYPE  ALBIA     IA123456789AA01A POP TYPE MUST BE NUMERIC.                                   
+
+               !MEGAN         NO LNAME       OSKALOOSA IA9876543210302B LAST NAME IS REQUIRED.                                      
+
+!RANDALL                      NO FNAME       OSKALOOSA IA1234567890103C FIRST NAME IS REQUIRED.                                     
+
+!FISHER        JOHN                          NOADDRESS IA9876543210102D ADDRESS IS REQUIRED.                                        
+
+!HAMILTON      FRANK          NO CITY                  IA1234567890103E CITY IS REQUIRED.                                           
+
+!HUNTER        GABRIELLE      ZIP NOT NUM    OSKALOOSA IAWORDS    0103A ZIP CODE MUST BE NUMERIC.                                   
+
+!WRIGHT        MATT           TOOLOWCASES    OSKALOOSA IA9876543210500B CASES ORDERED MUST BE A MINIMUM OF 1.                       
+
+!TERRY         AUDREY         NOT GOOD TEAM  CENTERVILLIA1234567890145F TEAM MUST BE A THROUGH E.                                   
+
+!TERRY         AUDREY         WRONG STATE    CENTERVILLTX9876543210145A VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!MARTIN        WILLIAM        CASENOTNUM     OTTUMWA   IA98765432101##B NUMBER OF CASE'S MUST BE NUMERIC.                           
+
+!BLAKE         BORIS          LOW POP TYPE   OTTUMWA   IL9876543210005A POP TYPE MUST BE 1 THROUGH 6.                               
+
+!SUTHERLAND    LAUREN         HIGH POP TYPE  ALBIA     IL1234567890703C POP TYPE MUST BE 1 THROUGH 6.                               
+
+!WALSH         SEAN           NO STATE       ALBIA       9876543210203D VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!CARR          EVAN           NOTNUMPOPTYPE  ALBIA     IL987654321##01A POP TYPE MUST BE NUMERIC.                                   
+
+               !MEGAN         NO LNAME       OSKALOOSA IL1234567890302B LAST NAME IS REQUIRED.                                      
+
+!RANDALL                      NO FNAME       OSKALOOSA IL9876543210103C FIRST NAME IS REQUIRED.                                     
+
+!FISHER        JOHN                          NOADDRESS IL1234567890102D ADDRESS IS REQUIRED.                                        
+
+!HAMILTON      FRANK          NO CITY                  IL9876543210103E CITY IS REQUIRED.                                           
+
+!HUNTER        GABRIELLE      ZIP NOT NUM    OSKALOOSA ILWORDS    0103A ZIP CODE MUST BE NUMERIC.                                   
+
+!WRIGHT        MATT           TOOLOWCASES    OSKALOOSA IL1234567890500B CASES ORDERED MUST BE A MINIMUM OF 1.                       
+
+!TERRY         AUDREY         NOT GOOD TEAM  CENTERVILLIL9876543210145F TEAM MUST BE A THROUGH E.                                   
+
+!TERRY         AUDREY         WRONG STATE    CENTERVILLOK1234567890145A VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+
+
+
+
+DATE: 02/10/2020                                    ALBIA SOCCER CLUB FUNDRAISER                                            PAGE:  2
+COBNLH05                                                  HOUSER DIVISION                                                           
+                                                            ERROR REPORT                                                            
+
+ERROR RECORD                                                            ERROR DESCRIPTION                                           
+
+!MARTIN        WILLIAM        CASENOTNUM     OTTUMWA   IL12345678901##B NUMBER OF CASE'S MUST BE NUMERIC.                           
+
+!BLAKE         BORIS          LOW POP TYPE   OTTUMWA   MI1234567890005A POP TYPE MUST BE 1 THROUGH 6.                               
+
+!SUTHERLAND    LAUREN         HIGH POP TYPE  ALBIA     MI9876543210703C POP TYPE MUST BE 1 THROUGH 6.                               
+
+!WALSH         SEAN           NO STATE       ALBIA       1234567890203D VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!CARR          EVAN           NOTNUMPOPTYPE  ALBIA     MI1234567890A01A POP TYPE MUST BE NUMERIC.                                   
+
+               !MEGAN         NO LNAME       OSKALOOSA MI9876543210302B LAST NAME IS REQUIRED.                                      
+
+!RANDALL                      NO FNAME       OSKALOOSA MI1234567890103C FIRST NAME IS REQUIRED.                                     
+
+!FISHER        JOHN                          NOADDRESS MI9876543210102D ADDRESS IS REQUIRED.                                        
+
+!HAMILTON      FRANK          NO CITY                  MI1234567890103E CITY IS REQUIRED.                                           
+
+!HUNTER        GABRIELLE      ZIP NOT NUM    OSKALOOSA MIWORDS    0103A ZIP CODE MUST BE NUMERIC.                                   
+
+!WRIGHT        MATT           TOOLOWCASES    OSKALOOSA MI9876543210500B CASES ORDERED MUST BE A MINIMUM OF 1.                       
+
+!TERRY         AUDREY         NOT GOOD TEAM  CENTERVILLMI1234567890145F TEAM MUST BE A THROUGH E.                                   
+
+!TERRY         AUDREY         WRONG STATE    CENTERVILLPA9876543210145A VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!MARTIN        WILLIAM        CASENOTNUM     OTTUMWA   MI98765432101##B NUMBER OF CASE'S MUST BE NUMERIC.                           
+
+!BLAKE         BORIS          LOW POP TYPE   OTTUMWA   MO9876543210005A POP TYPE MUST BE 1 THROUGH 6.                               
+
+!SUTHERLAND    LAUREN         HIGH POP TYPE  ALBIA     MO1234567890703C POP TYPE MUST BE 1 THROUGH 6.                               
+
+!WALSH         SEAN           NO STATE       ALBIA       9876543210203D VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!CARR          EVAN           NOTNUMPOPTYPE  ALBIA     MO987654321A001A POP TYPE MUST BE NUMERIC.                                   
+
+               !MEGAN         NO LNAME       OSKALOOSA MO1234567890302B LAST NAME IS REQUIRED.                                      
+
+!RANDALL                      NO FNAME       OSKALOOSA MO9876543210103C FIRST NAME IS REQUIRED.                                     
+
+!FISHER        JOHN                          NOADDRESS MO1234567890102D ADDRESS IS REQUIRED.                                        
+
+!HAMILTON      FRANK          NO CITY                  MO9876543210103E CITY IS REQUIRED.                                           
+
+!HUNTER        GABRIELLE      ZIP NOT NUM    OSKALOOSA MOWORDS    0103A ZIP CODE MUST BE NUMERIC.                                   
+
+!WRIGHT        MATT           TOOLOWCASES    OSKALOOSA MO1234567890500B CASES ORDERED MUST BE A MINIMUM OF 1.                       
+
+!TERRY         AUDREY         NOT GOOD TEAM  CENTERVILLMO9876543210145F TEAM MUST BE A THROUGH E.                                   
+
+
+
+
+
+DATE: 02/10/2020                                    ALBIA SOCCER CLUB FUNDRAISER                                            PAGE:  3
+COBNLH05                                                  HOUSER DIVISION                                                           
+                                                            ERROR REPORT                                                            
+
+ERROR RECORD                                                            ERROR DESCRIPTION                                           
+
+!TERRY         AUDREY         WRONG STATE    CENTERVILLKY1234567890145A VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!MARTIN        WILLIAM        CASENOTNUM     OTTUMWA   MO12345678901##B NUMBER OF CASE'S MUST BE NUMERIC.                           
+
+!BLAKE         BORIS          LOW POP TYPE   OTTUMWA   NE1234567890005A POP TYPE MUST BE 1 THROUGH 6.                               
+
+!SUTHERLAND    LAUREN         HIGH POP TYPE  ALBIA     NE9876543210703C POP TYPE MUST BE 1 THROUGH 6.                               
+
+!WALSH         SEAN           NO STATE       ALBIA       1234567890203D VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!CARR          EVAN           NOTNUMPOPTYPE  ALBIA     NE123456789!!01A POP TYPE MUST BE NUMERIC.                                   
+
+               !MEGAN         NO LNAME       OSKALOOSA NE1234567890302B LAST NAME IS REQUIRED.                                      
+
+!RANDALL                      NO FNAME       OSKALOOSA NE9876543210103C FIRST NAME IS REQUIRED.                                     
+
+!FISHER        JOHN                          NOADDRESS NE1234567890102D ADDRESS IS REQUIRED.                                        
+
+!HAMILTON      FRANK          NO CITY                  NE9876543210103E CITY IS REQUIRED.                                           
+
+!HUNTER        GABRIELLE      ZIP NOT NUM    OSKALOOSA NEWORDS    0103A ZIP CODE MUST BE NUMERIC.                                   
+
+!WRIGHT        MATT           TOOLOWCASES    OSKALOOSA NE1234567890500B CASES ORDERED MUST BE A MINIMUM OF 1.                       
+
+!TERRY         AUDREY         NOT GOOD TEAM  CENTERVILLNE1234567890145F TEAM MUST BE A THROUGH E.                                   
+
+!TERRY         AUDREY         WRONG STATE    CENTERVILLAL1234567890145A VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!MARTIN        WILLIAM        CASENOTNUM     OTTUMWA   NE98765432101##B NUMBER OF CASE'S MUST BE NUMERIC.                           
+
+!BLAKE         BORIS          LOW POP TYPE   OTTUMWA   WI1234567890005A POP TYPE MUST BE 1 THROUGH 6.                               
+
+!SUTHERLAND    LAUREN         HIGH POP TYPE  ALBIA     WI1234567890703C POP TYPE MUST BE 1 THROUGH 6.                               
+
+!WALSH         SEAN           NO STATE       ALBIA       1234567890203D VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!CARR          EVAN           NOTNUMPOPTYPE  ALBIA     WI123456789/\01A POP TYPE MUST BE NUMERIC.                                   
+
+               !MEGAN         NO LNAME       OSKALOOSA WI1234567890302B LAST NAME IS REQUIRED.                                      
+
+!RANDALL                      NO FNAME       OSKALOOSA WI9876543210103C FIRST NAME IS REQUIRED.                                     
+
+!FISHER        JOHN                          NOADDRESS WI1234567890102D ADDRESS IS REQUIRED.                                        
+
+!HAMILTON      FRANK          NO CITY                  WI1234567890103E CITY IS REQUIRED.                                           
+
+!HUNTER        GABRIELLE      ZIP NOT NUM    OSKALOOSA WIWORDS    0103A ZIP CODE MUST BE NUMERIC.                                   
+
+!WRIGHT        MATT           TOOLOWCASES    OSKALOOSA WI1234567890500B CASES ORDERED MUST BE A MINIMUM OF 1.                       
+
+
+
+
+
+DATE: 02/10/2020                                    ALBIA SOCCER CLUB FUNDRAISER                                            PAGE:  4
+COBNLH05                                                  HOUSER DIVISION                                                           
+                                                            ERROR REPORT                                                            
+
+ERROR RECORD                                                            ERROR DESCRIPTION                                           
+
+!TERRY         AUDREY         NOT GOOD TEAM  CENTERVILLWI9876543210145F TEAM MUST BE A THROUGH E.                                   
+
+!TERRY         AUDREY         WRONG STATE    CENTERVILLTN1234567890145A VALID STATES ARE IA, IL, MI, MO, NE AND WI.                 
+
+!MARTIN        WILLIAM        CASENOTNUM     OTTUMWA   WI12345678901##B NUMBER OF CASE'S MUST BE NUMERIC.                           
+
+
+TOTAL ERRORS    78                                                                                                                  

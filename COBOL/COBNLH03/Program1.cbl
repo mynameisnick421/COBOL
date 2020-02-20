@@ -1,0 +1,333 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID.     COBNLH03.
+       DATE-WRITTEN.   1/2/2020.
+       AUTHOR.         NICK HOUSER.
+       DATE-COMPILED.
+      *******************************************
+      *  THIS PROGRAM READS A FILE AND CREATES  *
+      *         A REPORT OF BOATS SOLD          *
+      *  WITH MAJOR CONTROL BREAK ON BOAT TYPE  *
+      *     AND MINOR CONTROL BREAK ON STATE    *
+      *******************************************
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+
+           SELECT BOAT-REPORT
+               ASSIGN TO 'C:\SCHOOL\COBOL\CBLBOAT1.DAT'
+               ORGANIZATION IS LINE SEQUENTIAL.
+
+           SELECT PRINTOUT
+               ASSIGN TO 'C:\SCHOOL\COBOL\CBLBOAT2.PRT'
+               ORGANIZATION IS RECORD SEQUENTIAL.
+      
+       DATA DIVISION.
+       FILE SECTION.
+
+       FD BOAT-REPORT
+           LABEL RECORD IS STANDARD
+           DATA RECORD IS I-BOATS
+           RECORD CONTAINS 42 CHARACTERS.
+      *DECLARING INPUT VARIABLES
+       01 I-BOATS.
+           05 I-LAST-NAME              PIC X(15).
+           05 I-STATE                  PIC XX.
+           05 I-BOAT-COST              PIC 9(6)V99.
+           05 I-PURCHASE-DATE.
+               10 I-PURCHASE-YYYY      PIC 9(4).
+               10 I-PURCHASE-MM        PIC 99.
+               10 I-PURCHASE-DD        PIC 99.
+           05 I-BOAT-TYPE              PIC X.
+           05 I-ACCESSORY-PACKAGE      PIC 9.
+           05 I-PREP-DELIVER-COST      PIC 9(5)V99.
+
+       FD PRINTOUT
+           LABEL RECORD IS OMITTED
+           RECORD CONTAINS 132 CHARACTERS
+           DATA RECORD IS PRINTLINE
+           LINAGE IS 60 WITH FOOTING AT 55.
+
+       01 PRINTLINE                PIC X(132).
+
+       WORKING-STORAGE SECTION.
+       01 WORK-AREA.
+           05  EOF                 PIC X(5)        VALUE 'FALSE'.
+           05  H-BOAT-TYPE-CHAR    PIC X.
+           05  H-STATE             PIC XX.
+      *CALCULATED VARIABLES
+           05  C-TOTAL             PIC 9(7)V99.
+           05  C-PCTR              PIC 9(3)        VALUE 0.
+           05  C-ACC-COST          PIC 9(4)V99.
+           05  C-MRKUP-PER         PIC V999.
+           05  C-MRKUP-AMT         PIC 9(6)V99.
+           05  C-TAX-DUE           PIC 9(6)V99.
+           05  E-BOAT-TYPE         PIC X(13).
+      *MINOR VARIABLES
+           05  MIN-BOAT-CTR        PIC 9(4)        VALUE 0.
+           05  MIN-TOTAL           PIC 9(9)V99     VALUE 0.
+      *MAJOR VARIABLES
+           05  MAJ-BOAT-CTR        PIC 9(5)        VALUE 0.
+           05  MAJ-TOTAL           PIC 9(9)V99     VALUE 0.
+      *GRAND-TOTAL-ACCUMULATORS
+           05  GT-BOAT-CTR         PIC 9(6)        VALUE 0.
+           05  GT-TOTAL            PIC 9(11)V99    VALUE 0.
+
+       01 CURRENT-DATE-AND-TIME.
+           05  I-DATE.
+               10  I-YY        PIC 9(4).
+               10  I-MM        PIC 99.
+               10  I-DD        PIC 99.
+           05  I-TIME          PIC X(11).
+
+       01 BLANK-LINE.
+           05 FILLER           PIC X(132).
+
+       01 COMPANY-TITLE.
+           05  FILLER          PIC X(6)        VALUE 'DATE:'.
+           05  O-MM            PIC 99.
+           05  FILLER          PIC X           VALUE '/'.
+           05  O-DD            PIC 99.
+           05  FILLER          PIC X           VALUE '/'.
+           05  O-YY            PIC 9(4).
+           05  FILLER          PIC X(40)       VALUE ' '.
+           05  FILLER          PIC X(19)                         
+                                   VALUE "HOUSER'S BOATS INC.".
+           05  FILLER          PIC X(49)       VALUE ' '.
+           05  FILLER          PIC X(6)        VALUE 'PAGE:'.
+           05  O-PCTR          PIC Z9.
+
+       01 COLUMN-HEADING1.
+           05  FILLER          PIC X(44)       VALUE 'CUSTOMER'.
+           05  FILLER          PIC X(13)       VALUE 'BOAT'.
+           05  FILLER          PIC X(19)       VALUE 'PURCHASE'.
+           05  FILLER          PIC X(30)       VALUE 'ACCESSORY'.
+           05  FILLER          PIC X(21)       VALUE 'PREP'.
+           05  FILLER          PIC X(5)        VALUE 'TOTAL'.
+
+       01 COLUMN-HEADING2.
+           05  FILLER          PIC X(23)       VALUE 'LAST NAME'.
+           05  FILLER          PIC X(21)       VALUE 'STATE'.
+           05  FILLER          PIC X(13)       VALUE 'COST'.
+           05  FILLER          PIC X(19)       VALUE 'DATE'.
+           05  FILLER          PIC X(30)       VALUE 'PACKAGE'.
+           05  FILLER          PIC X(22)       VALUE 'COST'.
+           05  FILLER          PIC X(4)        VALUE 'COST'.
+
+       01 MAJOR-HEADING.
+           05  FILLER          PIC X(11)       VALUE 'BOAT TYPE:'.
+           05  O-MT-BOAT-TYPE  PIC X(13).
+           05  FILLER          PIC X(108)      VALUE ' '.
+
+       01 DETAIL-LINE.
+           05  O-LAST-NAME     PIC X(16).
+           05  FILLER          PIC X(8)        VALUE ' '.
+           05  O-STATE         PIC XX.
+           05  FILLER          PIC X(12)       VALUE ' '.
+           05  O-BOAT-COST     PIC ZZZ,ZZZ.99.
+           05  FILLER          PIC X(9)        VALUE ' '.
+           05  O-PURCHASE-MM   PIC 99.
+           05  FILLER          PIC X           VALUE '/'.
+           05  O-PURCHASE-DD   PIC 99.
+           05  FILLER          PIC X           VALUE '/'.
+           05  O-PURCHASE-YY   PIC 99.
+           05  FILLER          PIC X(11)       VALUE ' '.
+           05  O-ACCES-PACKAGE PIC X(15).
+           05  FILLER          PIC X(9)        VALUE ' '.
+           05  O-PREP-COST     PIC ZZZ,ZZZ.99.
+           05  FILLER          PIC X(10)       VALUE ' '.
+           05  O-TOTAL         PIC Z,ZZZ,ZZZ.99.
+
+       01 MINOR-BREAK.
+           05  FILLER          PIC X(10)       VALUE ' '.
+           05  FILLER          PIC X(14)       VALUE 'SUBTOTALS FOR'.
+           05  O-H-STATE       PIC XX.
+           05  FILLER          PIC X(11)       VALUE ' '.
+           05  O-H-MIN-TYPE    PIC X(13).
+           05  FILLER          PIC X(10)       VALUE ' '.
+           05  FILLER          PIC X(15)       VALUE 'NUMBER SOLD:'.
+           05  O-MIN-BOAT-CTR  PIC Z,ZZ9.
+           05  FILLER          PIC X(37)       VALUE ' '.
+           05  O-MIN-TOTAL     PIC $$$$,$$$,$$$.99.
+
+       01 MAJOR-BREAK.
+           05  FILLER          PIC X(10)       VALUE ' '.
+           05  FILLER          PIC X(27)       VALUE 'SUBTOTALS FOR'.
+           05  O-MB-BOAT-TYPE  PIC X(13).
+           05  FILLER          PIC X(10)       VALUE ' '.
+           05  FILLER          PIC X(14)       VALUE 'NUMBER SOLD:'.
+           05  O-MAJ-BOAT-CTR  PIC ZZ,ZZ9.
+           05  FILLER          PIC X(34)       VALUE ' '.
+           05  O-MAJ-TOTAL     PIC $$$,$$$,$$$,$$$.99.
+
+       01 TOTAL-LINE.
+           05  FILLER          PIC X(23)       VALUE ' '.
+           05  FILLER          PIC X(37)       VALUE 'GRAND TOTALS'.
+           05  FILLER          PIC X(13)       VALUE 'NUMBER SOLD:'.
+           05  O-GT-BOAT-CTR   PIC ZZZ,ZZ9.
+           05  FILLER          PIC X(31)       VALUE ' '.
+           05  O-GT-TOTAL PIC $$,$$$,$$$,$$$,$$$.99.
+
+       PROCEDURE DIVISION.
+       0000-MAIN.
+           PERFORM 1000-INIT.
+           PERFORM 2000-MAINLINE
+               UNTIL EOF = 'TRUE'.
+           PERFORM 3000-CLOSING.
+           STOP RUN.
+
+       1000-INIT.
+           OPEN INPUT BOAT-REPORT.
+           OPEN OUTPUT PRINTOUT.
+           MOVE FUNCTION CURRENT-DATE TO CURRENT-DATE-AND-TIME.
+           MOVE I-YY TO O-YY.
+           MOVE I-DD TO O-DD.
+           MOVE I-MM TO O-MM.
+           PERFORM 9000-READ.
+           MOVE I-BOAT-TYPE TO H-BOAT-TYPE-CHAR.
+           MOVE I-STATE TO H-STATE.
+           PERFORM 9900-HEADINGS.
+
+       2000-MAINLINE.
+           IF H-BOAT-TYPE-CHAR NOT = I-BOAT-TYPE
+               PERFORM 9300-MINOR-BREAK
+               PERFORM 9400-MAJOR-BREAK
+               PERFORM 9100-MAJOR-TITLE-LINE
+           ELSE
+               IF H-STATE NOT = I-STATE
+                   PERFORM 9300-MINOR-BREAK.
+           PERFORM 2100-CALCS.
+           PERFORM 2200-OUTPUT.
+           PERFORM 9000-READ.
+
+       2100-CALCS.
+           IF I-ACCESSORY-PACKAGE = 1
+               MOVE "ELECTRONICS" TO O-ACCES-PACKAGE
+               MOVE 5415.30 TO C-ACC-COST
+           ELSE
+               IF I-ACCESSORY-PACKAGE = 2
+                   MOVE "SKI PACKAGE" TO O-ACCES-PACKAGE
+                   MOVE 3980.00 TO C-ACC-COST
+               ELSE
+                   MOVE "FISHING PACKAGE" TO O-ACCES-PACKAGE
+                   MOVE 345.45 TO C-ACC-COST.
+           MULTIPLY I-BOAT-COST BY C-MRKUP-PER GIVING C-MRKUP-AMT 
+           ROUNDED.
+           ADD I-BOAT-COST C-MRKUP-AMT C-ACC-COST 
+           I-PREP-DELIVER-COST GIVING
+           C-TOTAL.
+           MULTIPLY C-TOTAL BY .06 GIVING C-TAX-DUE ROUNDED.
+           ADD C-TAX-DUE TO C-TOTAL.
+      *ADDING TO MINOR VARIABLES
+           ADD 1 TO MIN-BOAT-CTR.
+           ADD C-TOTAL TO MIN-TOTAL.
+              
+       2200-OUTPUT.
+           MOVE I-LAST-NAME TO O-LAST-NAME.
+           MOVE I-STATE TO O-STATE.
+           MOVE I-BOAT-COST TO O-BOAT-COST.
+           MOVE I-PURCHASE-YYYY TO O-PURCHASE-YY.
+           MOVE I-PURCHASE-MM TO O-PURCHASE-MM.
+           MOVE I-PURCHASE-DD TO O-PURCHASE-DD.
+           MOVE I-PREP-DELIVER-COST TO O-PREP-COST.
+           MOVE C-TOTAL TO O-TOTAL.
+           WRITE PRINTLINE FROM DETAIL-LINE
+               AFTER ADVANCING 1 LINES
+                   AT EOP
+                       PERFORM 9900-HEADINGS.
+
+
+       3000-CLOSING.
+           PERFORM 9300-MINOR-BREAK.
+           PERFORM 9400-MAJOR-BREAK.
+           PERFORM 3100-GRAND-TOTALS.
+           CLOSE BOAT-REPORT.
+           CLOSE PRINTOUT.
+
+       3100-GRAND-TOTALS.
+           
+           MOVE GT-BOAT-CTR TO O-GT-BOAT-CTR.
+           MOVE GT-TOTAL TO O-GT-TOTAL.
+           WRITE PRINTLINE FROM TOTAL-LINE
+               AFTER ADVANCING 3 LINES.
+
+       9000-READ.
+           READ BOAT-REPORT
+               AT END
+                   MOVE 'TRUE' TO EOF.
+
+       
+       9100-MAJOR-TITLE-LINE.
+           PERFORM 9200-BOAT-SWITCH.
+           MOVE E-BOAT-TYPE TO O-MT-BOAT-TYPE.
+           WRITE PRINTLINE FROM MAJOR-HEADING
+               AFTER ADVANCING 2 LINES.
+           WRITE PRINTLINE FROM BLANK-LINE
+               AFTER ADVANCING 1 LINE
+                   AT EOP
+                       PERFORM 9900-HEADINGS.
+
+       9200-BOAT-SWITCH.
+           EVALUATE I-BOAT-TYPE
+               WHEN "B"
+                   MOVE "BASS BOAT" TO E-BOAT-TYPE
+                   MOVE .33 TO C-MRKUP-PER
+               WHEN "P"
+                   MOVE "PONTOON" TO E-BOAT-TYPE
+                   MOVE .25 TO C-MRKUP-PER
+               WHEN "S"
+                   MOVE "SKI BOAT" TO E-BOAT-TYPE
+                   MOVE .425 TO C-MRKUP-PER
+               WHEN "J"
+                   MOVE "JOHN BOAT" TO E-BOAT-TYPE
+                   MOVE .33 TO C-MRKUP-PER
+               WHEN "C"
+                   MOVE "CANOE" TO E-BOAT-TYPE
+                   MOVE .20 TO C-MRKUP-PER
+               WHEN "R"
+                   MOVE "CABIN CRUISER" TO E-BOAT-TYPE
+                   MOVE .30 TO C-MRKUP-PER.
+
+       9300-MINOR-BREAK.
+           MOVE H-STATE TO O-H-STATE.
+           MOVE E-BOAT-TYPE TO O-H-MIN-TYPE.
+           MOVE MIN-BOAT-CTR TO O-MIN-BOAT-CTR.
+           MOVE MIN-TOTAL TO O-MIN-TOTAL.
+           WRITE PRINTLINE FROM MINOR-BREAK
+               AFTER ADVANCING 2 LINE.
+           WRITE PRINTLINE FROM BLANK-LINE
+               AFTER ADVANCING 1 LINE
+                   AT EOP
+                       PERFORM 9900-HEADINGS.
+
+      *ADDING TO MAJOR VARIABLES
+           ADD MIN-BOAT-CTR TO MAJ-BOAT-CTR.
+           ADD MIN-TOTAL TO MAJ-TOTAL.
+      *RESET MINOR VARIABLES
+           MOVE 0 TO MIN-BOAT-CTR.
+           MOVE 0 TO MIN-TOTAL.
+           MOVE I-STATE TO H-STATE.
+
+       9400-MAJOR-BREAK.
+           MOVE MAJ-BOAT-CTR TO O-MAJ-BOAT-CTR.
+           MOVE MAJ-TOTAL TO O-MAJ-TOTAL.
+           MOVE E-BOAT-TYPE TO O-MB-BOAT-TYPE.
+           WRITE PRINTLINE FROM MAJOR-BREAK
+               AFTER ADVANCING 1 LINES.
+      *ADDING TO GT VARIABLES
+           ADD MAJ-BOAT-CTR TO GT-BOAT-CTR.
+           ADD MAJ-TOTAL TO GT-TOTAL.
+      *RESET MAJOR VARIABLES
+           MOVE 0 TO MAJ-BOAT-CTR.
+           MOVE 0 TO MAJ-TOTAL.
+           MOVE I-BOAT-TYPE TO H-BOAT-TYPE-CHAR.
+
+       9900-HEADINGS.
+           ADD 1 TO C-PCTR.
+           MOVE C-PCTR TO O-PCTR.
+           WRITE PRINTLINE FROM COMPANY-TITLE
+               AFTER ADVANCING PAGE.
+           WRITE PRINTLINE FROM COLUMN-HEADING1
+               AFTER ADVANCING 2 LINES.
+           WRITE PRINTLINE FROM COLUMN-HEADING2
+               AFTER ADVANCING 1 LINE.
+           PERFORM 9100-MAJOR-TITLE-LINE.
